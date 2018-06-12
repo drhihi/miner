@@ -24,7 +24,10 @@ public class GUIAction extends BaseAction implements ActionListener, MouseListen
 
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
-        board.repaint();
+        if (board.isFinishGame()) {
+            return;
+        }
+        this.select(mouseEvent.getX() / GUIBoard.PADDING, mouseEvent.getY() / GUIBoard.PADDING, mouseEvent.getButton() == 3);
     }
 
     @Override

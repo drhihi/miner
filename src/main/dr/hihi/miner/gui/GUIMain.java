@@ -32,7 +32,10 @@ public class GUIMain {
                                 new Easy(), board,
                                 new GeneratorBoard() {
                                     public Cell[][] generate() {
-                                        return new Cell[][] {{new GUICell(), new GUICell()}, {new GUICell(), new GUICell()}};
+                                        return new Cell[][] {
+                                                {new GUICell(true, 0, 0), new GUICell(false, 0, 1)},
+                                                {new GUICell(true, 1, 0), new GUICell(false, 1, 1)}
+                                        };
                                     }
                                 }
                         )

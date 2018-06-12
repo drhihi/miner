@@ -22,9 +22,13 @@ public class Easy implements SaperLogic {
         boolean finish = false;
         for (Cell[] row : this.cells) {
             for (Cell cell : row) {
-                finish = ((cell.isSuggestBomb() && cell.isBomb()) ||
-                        (cell.isSuggestEmpty() && !cell.isBomb())
-                );
+                finish = cell.isSuggestBomb() || cell.isSuggestEmpty();
+                if (!finish) {
+                    break;
+                }
+            }
+            if (!finish) {
+                break;
             }
         }
         return finish;

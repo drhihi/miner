@@ -12,14 +12,17 @@ public class GUIBoard extends JPanel implements Board {
 
     public Cell<Graphics>[][] cells;
 
+    private boolean finishGame = false;
+    private boolean victory = false;
+
     @Override
     protected void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
         if (this.cells != null) {
-            for (int x=0; x != cells.length; x++) {
-                for (int y=0; y !=cells[0].length; y++) {
+            for (int x=0; x != this.cells.length; x++) {
+                for (int y=0; y != this.cells[0].length; y++) {
                     graphics.setColor(Color.BLACK);
-                    cells[x][y].draw(graphics, false);
+                    this.cells[x][y].draw(graphics, this.finishGame && !this.victory);
                     graphics.drawRect(x*PADDING, y*PADDING, PADDING, PADDING);
                 }
             }
@@ -29,21 +32,40 @@ public class GUIBoard extends JPanel implements Board {
     @Override
     public void drawBoard(Cell[][] cells) {
         this.cells = cells;
+        this.setStartGame();
         this.repaint();
     }
 
     @Override
     public void drawCell(int x, int y) {
-        this.repaint();
+        this.cells[x][y].draw(this.getGraphics(), this.finishGame && !this.victory);
     }
 
     @Override
     public void drawBang() {
+        this.setFinishGame(false);
         this.repaint();
+        JOptionPane.showMessageDialog(this.getRootPane(),"Miss", "Message", JOptionPane.ERROR_MESSAGE);
     }
 
     @Override
     public void drawCongratulate() {
+        this.setFinishGame(true);
+        this.repaint();
+        JOptionPane.showMessageDialog(this.getRootPane(),"Win");
+    }
 
+    private void setFinishGame(boolean victory) {
+        this.victory = victory;
+        this.finishGame = true;
+    }
+
+    private void setStartGame() {
+        this.finishGame = false;
+        this.victory = false;
+    }
+
+    public boolean isFinishGame() {
+        return this.finishGame;
     }
 }
